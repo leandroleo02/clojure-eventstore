@@ -29,10 +29,7 @@
       :doc "Retrieves the stream list"}
     [this aggregation]
     [this aggregation offset]
-    [this aggregation offset limit])
-  (clear-store
-    ^{:doc "Clean up the whole store"}
-    [this])) ; is it the best solution?
+    [this aggregation offset limit]))
 
 (defn event-stream-constructor 
   "Creates an event store function"

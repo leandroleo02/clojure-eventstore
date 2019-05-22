@@ -61,7 +61,4 @@
         (retrieve-streams store aggregation offset))
 
       (get-streams [this aggregation offset limit]
-        (retrieve-streams store aggregation offset limit))
-
-      (clear-store [this]
-        (.clear store)))))
+        (retrieve-streams store aggregation offset limit)))))
