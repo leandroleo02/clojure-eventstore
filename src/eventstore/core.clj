@@ -4,7 +4,8 @@
   (:require [eventstore.domain :as d]))
 
 (defprotocol Publisher
-  (subscribe [aggregation subscriber]))
+  (publish [this message])
+  (subscribe [this aggregation subscriber]))
 
 (defprotocol EventStore
   (add-event
