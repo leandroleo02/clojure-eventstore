@@ -17,9 +17,8 @@
     (reify core/Publisher
       (publish [this message]
         (let [aggregation-listeners (retrieve-listeners-for listeners (:aggregation (:stream message)))]
-          (if-not (empty? aggregation-listeners)
-            (doseq [subscriber aggregation-listeners]
-              (subscriber message)))))
+          (doseq [subscriber aggregation-listeners]
+            (subscriber message))))
       
       (subscribe [this aggregation subscriber]
         (let [aggregation-listeners (retrieve-listeners-for listeners aggregation)]
