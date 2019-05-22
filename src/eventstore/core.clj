@@ -3,6 +3,9 @@
  eventstore.core 
   (:require [eventstore.domain :as d]))
 
+(defprotocol Publisher
+  (subscribe [aggregation subscriber]))
+
 (defprotocol EventStore
   (add-event
     ^{:arglists '([stream data])

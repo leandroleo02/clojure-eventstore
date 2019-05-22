@@ -28,9 +28,7 @@
          streams (Collections/list (.keys aggregations))]
      (drop-and-take streams offset limit))))
 
-(def in-memory-event-store
-  "A Event Store that handle all the data in memory. 
-  It is a very simple implementation that should be used only for development and test purposes."
+(defn in-memory-event-store [& publisher]
   (let [store (ConcurrentHashMap.)]
     (reify core/EventStore
       (add-event [this stream data]
