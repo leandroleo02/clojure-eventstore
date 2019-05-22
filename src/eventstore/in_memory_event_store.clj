@@ -28,37 +28,39 @@
          streams (Collections/list (.keys aggregations))]
      (drop-and-take streams offset limit))))
 
-(defn in-memory-event-store [& publisher]
-  (let [store (ConcurrentHashMap.)]
-    (reify core/EventStore
-      (add-event [this stream data]
-        (let [current-events (retrieve-events-for store stream)
-              new-event (d/->Event data (System/currentTimeMillis) (.size current-events))]
-          (.add current-events new-event)))
+(defn in-memory-event-store 
+  ([] (in-memory-event-store nil))
+  ([publisher]
+   (let [store (ConcurrentHashMap.)]
+     (reify core/EventStore
+       (add-event [this stream data]
+         (let [current-events (retrieve-events-for store stream)
+               new-event (d/->Event data (System/currentTimeMillis) (.size current-events))]
+           (.add current-events new-event)))
 
-      (get-events [this stream]
-        (into () (retrieve-events-for store stream)))
+       (get-events [this stream]
+         (into () (retrieve-events-for store stream)))
 
-      (get-events [this stream offset]
-        (drop offset (retrieve-events-for store stream)))
+       (get-events [this stream offset]
+         (drop offset (retrieve-events-for store stream)))
 
-      (get-events [this stream offset limit]
-        (take limit (drop offset (retrieve-events-for store stream))))
+       (get-events [this stream offset limit]
+         (take limit (drop offset (retrieve-events-for store stream))))
 
-      (get-aggregations [this]
-        (retrieve-aggregations store))
+       (get-aggregations [this]
+         (retrieve-aggregations store))
 
-      (get-aggregations [this offset]
-        (retrieve-aggregations store offset))
+       (get-aggregations [this offset]
+         (retrieve-aggregations store offset))
 
-      (get-aggregations [this offset limit]
-        (retrieve-aggregations store offset limit))
+       (get-aggregations [this offset limit]
+         (retrieve-aggregations store offset limit))
 
-      (get-streams [this aggregation]
-        (retrieve-streams store aggregation))
+       (get-streams [this aggregation]
+         (retrieve-streams store aggregation))
 
-      (get-streams [this aggregation offset]
-        (retrieve-streams store aggregation offset))
+       (get-streams [this aggregation offset]
+         (retrieve-streams store aggregation offset))
 
-      (get-streams [this aggregation offset limit]
-        (retrieve-streams store aggregation offset limit)))))
+       (get-streams [this aggregation offset limit]
+         (retrieve-streams store aggregation offset limit))))))
