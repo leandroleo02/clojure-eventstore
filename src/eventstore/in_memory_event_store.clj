@@ -37,7 +37,9 @@
        (add-event [this stream data]
          (let [current-events (retrieve-events-for store stream)
                new-event (d/->Event data (System/currentTimeMillis) (.size current-events))]
-           (.add current-events new-event)))
+           (.add current-events new-event)
+           (if publisher 
+             (publisher/publish publisher (d/->Message stream new-event)))))
 
        (get-events [this stream]
          (into () (retrieve-events-for store stream)))

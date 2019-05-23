@@ -111,5 +111,7 @@
   (let [in-memory-publisher (publisher/in-memory-publisher)
         in-memory (store/in-memory-event-store in-memory-publisher)]
     (testing "No streams in the store"
-      (eventstore/subscribe in-memory "orders" (fn [m] (println m)))
+      (eventstore/subscribe in-memory "orders" 
+                            (fn [m] 
+                              (is (= "orders" (:aggregation (:stream m))))))
       (eventstore/add-event in-memory (d/->Stream "orders" 123456) "json 1"))))
