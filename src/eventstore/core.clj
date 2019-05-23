@@ -5,7 +5,7 @@
 
 (defprotocol Publisher
   (publish [this message])
-  (subscribe [this aggregation subscriber]))
+  (add-subscriber [this aggregation subscriber]))
 
 (defprotocol EventStore
   (add-event
@@ -29,7 +29,11 @@
       :doc "Retrieves the stream list"}
     [this aggregation]
     [this aggregation offset]
-    [this aggregation offset limit]))
+    [this aggregation offset limit])
+  (subscribe 
+   ^{:arglists '([aggregation subscriber])
+      :doc "Subscribe the events from the store"}
+   [this aggregation subscriber]))
 
 (defn event-stream-constructor 
   "Creates an event store function"

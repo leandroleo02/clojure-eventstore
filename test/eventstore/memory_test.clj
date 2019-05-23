@@ -2,7 +2,8 @@
   (:require [clojure.test :refer :all]
             [eventstore.domain :as d]
             [eventstore.core :refer [EventStore] :as eventstore]
-            [eventstore.in-memory-event-store :refer :all :as store]))
+            [eventstore.in-memory-event-store :refer :all :as store]
+            [eventstore.in-memory-publisher :refer :all :as publisher]))
 
 (defn add-n-events
   ([in-memory n aggregation id] (add-n-events in-memory n aggregation id "any json data"))
@@ -105,3 +106,10 @@
       (eventstore/add-event in-memory (d/->Stream "orders" 100003) "json 6")
       (let [streams (eventstore/get-streams in-memory "orders" 2 2)]
         (is (= 2 (count streams)))))))
+
+(deftest publishing-messages
+  (let [in-memory-publisher (publisher/in-memory-publisher)
+        in-memory (store/in-memory-event-store in-memory-publisher)]
+    (testing "No streams in the store"
+      (eventstore/subscribe in-memory "orders" (fn [m] (println m)))
+      (eventstore/add-event in-memory (d/->Stream "orders" 123456) "json 1"))))

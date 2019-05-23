@@ -1,6 +1,7 @@
 (ns eventstore.in-memory-event-store
   (:require [eventstore.domain :as d]
-            [eventstore.core :as core]
+            [eventstore.core :refer [EventStore] :as store]
+            [eventstore.core :refer [Publisher] :as publisher]
             [eventstore.util :as util])
   (:import java.util.concurrent.ConcurrentHashMap
            java.util.Collections
@@ -32,7 +33,7 @@
   ([] (in-memory-event-store nil))
   ([publisher]
    (let [store (ConcurrentHashMap.)]
-     (reify core/EventStore
+     (reify store/EventStore
        (add-event [this stream data]
          (let [current-events (retrieve-events-for store stream)
                new-event (d/->Event data (System/currentTimeMillis) (.size current-events))]
@@ -63,4 +64,8 @@
          (retrieve-streams store aggregation offset))
 
        (get-streams [this aggregation offset limit]
-         (retrieve-streams store aggregation offset limit))))))
+         (retrieve-streams store aggregation offset limit))
+       
+       (subscribe [this aggregation subscriber] 
+                  (if publisher
+                    (publisher/add-subscriber publisher aggregation subscriber)))))))

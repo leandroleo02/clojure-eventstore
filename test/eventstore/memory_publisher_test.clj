@@ -17,27 +17,27 @@
 (deftest publish-and-subscribe-messages
   (testing "One subscriber by aggregation"
     (let [in-memory (publisher/in-memory-publisher)]
-      (core/subscribe in-memory aggregation-orders
+      (core/add-subscriber in-memory aggregation-orders
                       (fn [m]
                         (is (= "orders" (:aggregation (:stream m))))))
       (core/publish in-memory message-orders)))
 
   (testing "Two subscribers by aggregation"
     (let [in-memory (publisher/in-memory-publisher)]
-      (core/subscribe in-memory aggregation-orders
+      (core/add-subscriber in-memory aggregation-orders
                       (fn [m]
                         (is (= "orders" (:aggregation (:stream m))))))
-      (core/subscribe in-memory aggregation-orders
+      (core/add-subscriber in-memory aggregation-orders
                       (fn [m]
                         (is (= "orders" (:aggregation (:stream m))))))
       (core/publish in-memory message-orders)))
 
   (testing "Two subscribers and two aggregations"
     (let [in-memory (publisher/in-memory-publisher)]
-      (core/subscribe in-memory aggregation-customer
+      (core/add-subscriber in-memory aggregation-customer
                       (fn [m]
                         (is (= "customer" (:aggregation (:stream m))))))
-      (core/subscribe in-memory aggregation-orders
+      (core/add-subscriber in-memory aggregation-orders
                       (fn [m]
                         (is (= "orders" (:aggregation (:stream m))))))
       (core/publish in-memory message-customer)
@@ -45,7 +45,7 @@
   
   (testing "Remove subscriber"
     (let [in-memory (publisher/in-memory-publisher) 
-          subscription (core/subscribe in-memory aggregation-customer
+          subscription (core/add-subscriber in-memory aggregation-customer
                           (fn [m]
                             (is (= "customer" (:aggregation (:stream m))))))]
       (is (subscription)))))

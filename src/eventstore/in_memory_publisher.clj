@@ -20,7 +20,7 @@
           (doseq [subscriber aggregation-listeners]
             (subscriber message))))
       
-      (subscribe [this aggregation subscriber]
+      (add-subscriber [this aggregation subscriber]
         (let [aggregation-listeners (retrieve-listeners-for listeners aggregation)]
           (.add aggregation-listeners subscriber)
           (fn [] (.remove aggregation-listeners subscriber)))))))
