@@ -7,6 +7,21 @@
   (publish [this message])
   (add-subscriber [this aggregation subscriber]))
 
+(defprotocol Provider
+  (add [this stream data])
+  (retrieve-events
+    [this stream]
+    [this stream offset]
+    [this stream offset limit])
+  (retrieve-aggregations
+    [this]
+    [this offset]
+    [this offset limit])
+  (retrieve-streams
+    [this aggregation]
+    [this aggregation offset]
+    [this aggregation offset limit]))
+
 (defprotocol EventStore
   (add-event
     ^{:arglists '([stream data])
