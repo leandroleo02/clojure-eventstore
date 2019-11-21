@@ -34,7 +34,8 @@
       (add [this stream data]
         (let [current-events (retrieve-events-for store stream)
               new-event (d/->Event data (System/currentTimeMillis) (.size current-events))]
-          (.add current-events new-event)))
+          (.add current-events new-event)
+          new-event))
 
       (retrieve-events [this stream]
         (into () (retrieve-events-for store stream)))
