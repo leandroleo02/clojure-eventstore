@@ -1,9 +1,8 @@
 (ns eventstore.core-test
   (:require [clojure.test :refer :all]
-            [eventstore.domain :as d]
-            [eventstore.core :refer :all :as core]
-            [eventstore.event-store :refer :all :as store]
-            [eventstore.in-memory-provider :refer :all :as provider]))
+            [eventstore.core :as core]
+            [eventstore.event-store :as store]
+            [eventstore.in-memory-provider :as provider]))
 
 (deftest create-event-stream-and-use-its-functions
   (let [provider (provider/in-memory-provider)

@@ -1,8 +1,8 @@
 (ns eventstore.memory-publisher-test
   (:require [clojure.test :refer :all]
             [eventstore.domain :as d]
-            [eventstore.core :refer [Publisher] :as core]
-            [eventstore.in-memory-publisher :refer :all :as publisher]))
+            [eventstore.core :as core]
+            [eventstore.in-memory-publisher :as publisher]))
 
 (def event (d/->Event "json 1" (System/currentTimeMillis) 1))
 
