@@ -5,11 +5,17 @@ A simple and fast EventStore that supports multiple persistence and notification
 
 ## Create EventStore
 
-A notification Publisher (Optional): Responsible for notify any process interested in modifications on the store streams.
+To Create an EventStore you must provide two implementations:
+
+* A persistence Provider: Responsible for events persistence in the store.
+* A notification Publisher (Optional): Responsible for notify any process interested in modifications on the store streams.
+
 If there is no publisher provided, the event store will not send any notification.
 
 ```clojure
-(def event-store (in-memory-event-store (in-memory-publisher)))
+(def provider (in-memory-provider))
+(def publisher (in-memory-publisher))
+(def event-store (in-memory-event-store provider publisher))
 ```
 
 ## Adding Events
