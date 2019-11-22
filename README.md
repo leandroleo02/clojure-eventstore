@@ -15,7 +15,7 @@ If there is no publisher provided, the event store will not send any notificatio
 ```clojure
 (def provider (in-memory-provider))
 (def publisher (in-memory-publisher))
-(def event-store (event-store provider publisher))
+(def store (event-store provider publisher))
 ```
 
 ## Adding Events
@@ -23,7 +23,7 @@ If there is no publisher provided, the event store will not send any notificatio
 To add Events you need to create an EventStream. You can add Events passing anything you want as a payload.
 
 ```clojure
-(def orders-stream (event-stream-constructor event-store "orders" "123456"))
+(def orders-stream (event-stream-constructor store "orders" "123456"))
 (orders-stream add-event "My Event Payload")
 ```
 
@@ -32,7 +32,7 @@ To add Events you need to create an EventStream. You can add Events passing anyt
 To read Events you need to create an EventStream. You can read a stream to receive an ordered list containing all the events in the store.
 
 ```clojure
-(def orders-stream (event-stream-constructor event-store "orders" "123456"))
+(def orders-stream (event-stream-constructor store "orders" "123456"))
 (def events (orders-stream get-events))
 ```
 
