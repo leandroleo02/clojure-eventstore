@@ -4,8 +4,7 @@
             [eventstore.util :as util])
   (:import java.util.concurrent.ConcurrentHashMap
            java.util.Collections
-           java.util.ArrayList
-           java.util.function.Function))
+           java.util.ArrayList))
 
 (declare retrieve-events-for)
 

@@ -1,11 +1,9 @@
 (ns eventstore.in-memory-publisher
-  (:require [eventstore.domain :as d]
-            [eventstore.core :as core]
+  (:require [eventstore.core :as core]
             [eventstore.util :as util])
   (:import java.util.concurrent.ConcurrentHashMap
            java.util.Collections
-           java.util.ArrayList
-           java.util.function.Function))
+           java.util.ArrayList))
 
 (declare retrieve-listeners-for)
 
