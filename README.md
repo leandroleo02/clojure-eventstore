@@ -15,7 +15,7 @@ If there is no publisher provided, the event store will not send any notificatio
 ```clojure
 (def provider (in-memory-provider))
 (def publisher (in-memory-publisher))
-(def event-store (in-memory-event-store provider publisher))
+(def event-store (event-store provider publisher))
 ```
 
 ## Adding Events
