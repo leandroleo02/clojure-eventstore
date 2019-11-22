@@ -18,7 +18,7 @@
 
 (defn- retrieve-aggregations-for
   ([store] (retrieve-aggregations-for store 0))
-  ([store offset & [limit]] 
+  ([store offset & [limit]]
    (drop-and-take (Collections/list (.keys store)) offset limit)))
 
 (defn- retrieve-streams-for

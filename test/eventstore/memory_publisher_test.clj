@@ -18,34 +18,34 @@
   (testing "One subscriber by aggregation"
     (let [in-memory (publisher/in-memory-publisher)]
       (core/add-subscriber in-memory aggregation-orders
-                      (fn [m]
-                        (is (= "orders" (:aggregation (:stream m))))))
+                           (fn [m]
+                             (is (= "orders" (:aggregation (:stream m))))))
       (core/publish in-memory message-orders)))
 
   (testing "Two subscribers by aggregation"
     (let [in-memory (publisher/in-memory-publisher)]
       (core/add-subscriber in-memory aggregation-orders
-                      (fn [m]
-                        (is (= "orders" (:aggregation (:stream m))))))
+                           (fn [m]
+                             (is (= "orders" (:aggregation (:stream m))))))
       (core/add-subscriber in-memory aggregation-orders
-                      (fn [m]
-                        (is (= "orders" (:aggregation (:stream m))))))
+                           (fn [m]
+                             (is (= "orders" (:aggregation (:stream m))))))
       (core/publish in-memory message-orders)))
 
   (testing "Two subscribers and two aggregations"
     (let [in-memory (publisher/in-memory-publisher)]
       (core/add-subscriber in-memory aggregation-customer
-                      (fn [m]
-                        (is (= "customer" (:aggregation (:stream m))))))
+                           (fn [m]
+                             (is (= "customer" (:aggregation (:stream m))))))
       (core/add-subscriber in-memory aggregation-orders
-                      (fn [m]
-                        (is (= "orders" (:aggregation (:stream m))))))
+                           (fn [m]
+                             (is (= "orders" (:aggregation (:stream m))))))
       (core/publish in-memory message-customer)
       (core/publish in-memory message-orders)))
-  
+
   (testing "Remove subscriber"
-    (let [in-memory (publisher/in-memory-publisher) 
+    (let [in-memory (publisher/in-memory-publisher)
           subscription (core/add-subscriber in-memory aggregation-customer
-                          (fn [m]
-                            (is (= "customer" (:aggregation (:stream m))))))]
+                                            (fn [m]
+                                              (is (= "customer" (:aggregation (:stream m))))))]
       (is (subscription)))))

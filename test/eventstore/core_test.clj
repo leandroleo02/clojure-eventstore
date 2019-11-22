@@ -30,4 +30,3 @@
         (orders-stream core/add-event "json 6")
         (is (= 3 (count (orders-stream core/get-events 2 3))))))))
 
-  

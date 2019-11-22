@@ -117,7 +117,7 @@
         publisher (publisher/in-memory-publisher)
         event-store (store/event-store provider publisher)]
     (testing "No streams in the store"
-      (eventstore/subscribe event-store "orders" 
-                            (fn [m] 
+      (eventstore/subscribe event-store "orders"
+                            (fn [m]
                               (is (= "orders" (:aggregation (:stream m))))))
       (eventstore/add-event event-store (d/->Stream "orders" 123456) "json 1"))))

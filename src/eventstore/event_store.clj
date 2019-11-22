@@ -1,50 +1,43 @@
 (ns eventstore.event-store
   (:require [eventstore.domain :as d]
-            [eventstore.core :refer [EventStore] :as store]
-            [eventstore.core :refer [Publisher] :as publisher]
-            [eventstore.core :refer [Provider] :as provider]
-            [eventstore.util :as util])
-  (:import java.util.concurrent.ConcurrentHashMap
-           java.util.Collections
-           java.util.ArrayList
-           java.util.function.Function))
+            [eventstore.core :as core]))
 
 (defn event-store
   ([provider] (event-store provider nil))
   ([provider publisher]
-   (reify store/EventStore
+   (reify core/EventStore
      (add-event [this stream data]
-       (let [new-event (provider/add provider stream data)]
+       (let [new-event (core/add provider stream data)]
          (if publisher
-           (publisher/publish publisher (d/->Message stream new-event)))))
+           (core/publish publisher (d/->Message stream new-event)))))
 
      (get-events [this stream]
-       (provider/retrieve-events provider stream))
+       (core/retrieve-events provider stream))
 
      (get-events [this stream offset]
-       (provider/retrieve-events provider stream offset))
+       (core/retrieve-events provider stream offset))
 
      (get-events [this stream offset limit]
-       (provider/retrieve-events provider stream offset limit))
+       (core/retrieve-events provider stream offset limit))
 
      (get-aggregations [this]
-       (provider/retrieve-aggregations provider))
+       (core/retrieve-aggregations provider))
 
      (get-aggregations [this offset]
-       (provider/retrieve-aggregations provider offset))
+       (core/retrieve-aggregations provider offset))
 
      (get-aggregations [this offset limit]
-       (provider/retrieve-aggregations provider offset limit))
+       (core/retrieve-aggregations provider offset limit))
 
      (get-streams [this aggregation]
-       (provider/retrieve-streams provider aggregation))
+       (core/retrieve-streams provider aggregation))
 
      (get-streams [this aggregation offset]
-       (provider/retrieve-streams provider aggregation offset))
+       (core/retrieve-streams provider aggregation offset))
 
      (get-streams [this aggregation offset limit]
-       (provider/retrieve-streams provider aggregation offset limit))
+       (core/retrieve-streams provider aggregation offset limit))
 
      (subscribe [this aggregation subscriber]
        (if publisher
-         (publisher/add-subscriber publisher aggregation subscriber))))))
+         (core/add-subscriber publisher aggregation subscriber))))))
