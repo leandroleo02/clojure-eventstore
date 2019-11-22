@@ -2,7 +2,7 @@
   (:require [clojure.test :refer :all]
             [eventstore.domain :as d]
             [eventstore.core :refer [EventStore] :as eventstore]
-            [eventstore.in-memory-event-store :refer :all :as store]
+            [eventstore.event-store :refer :all :as store]
             [eventstore.in-memory-publisher :refer :all :as publisher]
             [eventstore.in-memory-provider :refer :all :as provider]))
 
@@ -14,7 +14,7 @@
 
 (deftest adding-events-to-the-eventstore
   (let [provider (provider/in-memory-provider)
-        event-store (store/in-memory-event-store provider)]
+        event-store (store/event-store provider)]
     (testing "Add event to an aggregation"
       (eventstore/add-event event-store (d/->Stream "orders" 123456) "json 1")
       (let [events (eventstore/get-events event-store (d/->Stream "orders" 123456))]
@@ -37,7 +37,7 @@
 
 (deftest retrieving-eventos-from-eventstore
   (let [provider (provider/in-memory-provider)
-        event-store (store/in-memory-event-store provider)]
+        event-store (store/event-store provider)]
     (testing "No events added"
       (is (= 0 (count (eventstore/get-events event-store (d/->Stream "orders" 6543210))))))
 
@@ -57,7 +57,7 @@
 
 (deftest retrieving-aggregations-from-eventstore
   (let [provider (provider/in-memory-provider)
-        event-store (store/in-memory-event-store provider)]
+        event-store (store/event-store provider)]
     (testing "No aggregations in the store"
       (let [aggregations (eventstore/get-aggregations event-store)]
         (is (empty? aggregations))))
@@ -85,7 +85,7 @@
 
 (deftest retrieving-streams-from-eventstore
   (let [provider (provider/in-memory-provider)
-        event-store (store/in-memory-event-store provider)]
+        event-store (store/event-store provider)]
     (testing "No streams in the store"
       (let [streams (eventstore/get-streams event-store "orders")]
         (is (empty? streams))))
@@ -115,7 +115,7 @@
 (deftest publishing-messages
   (let [provider (provider/in-memory-provider)
         publisher (publisher/in-memory-publisher)
-        event-store (store/in-memory-event-store provider publisher)]
+        event-store (store/event-store provider publisher)]
     (testing "No streams in the store"
       (eventstore/subscribe event-store "orders" 
                             (fn [m] 
