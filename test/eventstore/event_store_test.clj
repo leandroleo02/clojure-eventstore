@@ -1,4 +1,4 @@
-(ns eventstore.memory-test
+(ns eventstore.event-store-test
   (:require [clojure.test :refer :all]
             [eventstore.domain :as d]
             [eventstore.core :refer [EventStore] :as eventstore]
@@ -7,10 +7,10 @@
             [eventstore.in-memory-provider :as provider]))
 
 (defn add-n-events
-  ([in-memory n aggregation id] (add-n-events in-memory n aggregation id "any json data"))
-  ([in-memory n aggregation id data]
+  ([event-store n aggregation id] (add-n-events event-store n aggregation id "any json data"))
+  ([event-store n aggregation id data]
    (dotimes [v n]
-     (eventstore/add-event in-memory (d/->Stream aggregation id) (str data v)))))
+     (eventstore/add-event event-store (d/->Stream aggregation id) (str data v)))))
 
 (deftest adding-events-to-the-eventstore
   (let [provider (provider/in-memory-provider)
