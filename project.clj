@@ -5,5 +5,6 @@
             :url          "http://opensource.org/licenses/MIT"
             :distribution :repo}
   :min-lein-version "2.8.1"
-  :dependencies [[org.clojure/clojure "1.10.0"]]
+  :dependencies [[org.clojure/clojure "1.10.0"]
+                 [org.clojure/tools.logging "0.5.0"]]
   :profiles {:dev {:plugins [[lein-cloverage "1.1.0"]]}})

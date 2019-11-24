@@ -2,9 +2,9 @@
   (:require [clojure.test :refer :all]
             [eventstore.domain :as d]
             [eventstore.core :refer [EventStore] :as eventstore]
-            [eventstore.event-store :refer :all :as store]
-            [eventstore.in-memory-publisher :refer :all :as publisher]
-            [eventstore.in-memory-provider :refer :all :as provider]))
+            [eventstore.event-store :as store]
+            [eventstore.in-memory-publisher :as publisher]
+            [eventstore.in-memory-provider :as provider]))
 
 (defn add-n-events
   ([in-memory n aggregation id] (add-n-events in-memory n aggregation id "any json data"))

@@ -1,6 +1,8 @@
 (ns eventstore.event-store
-  (:require [eventstore.domain :as d]
-            [eventstore.core :as core]))
+  (:require
+   [clojure.tools.logging :as log]
+   [eventstore.domain :as d]
+   [eventstore.core :as core]))
 
 (defn event-store
   ([provider] (event-store provider nil))
@@ -9,7 +11,8 @@
      (add-event [this stream data]
        (let [new-event (core/add provider stream data)]
          (if publisher
-           (core/publish publisher (d/->Message stream new-event)))))
+           (core/publish publisher (d/->Message stream new-event))
+           (log/info "No publisher available"))))
 
      (get-events [this stream]
        (core/retrieve-events provider stream))
@@ -40,4 +43,5 @@
 
      (subscribe [this aggregation subscriber]
        (if publisher
-         (core/add-subscriber publisher aggregation subscriber))))))
+         (core/add-subscriber publisher aggregation subscriber)
+         (log/info "No publisher available"))))))
